@@ -3,6 +3,8 @@ kind: Workflow
 metadata:
   generateName: mlops-pipeline-
   namespace: argo
+
+# Спецификация Workflow
 spec:
   entrypoint: ml-workflow
   
@@ -20,7 +22,9 @@ spec:
   templates:
   - name: ml-workflow
     dag:
-      tasks:       
+      tasks:
+
+      # Загрузка данных   
       - name: load-data
         template: run-step
         arguments:
@@ -28,6 +32,7 @@ spec:
           - name: cmd
             value: "python3 src/load_data.py --output /mnt/data"
 
+      # Разделение данных
       - name: split-data
         dependencies: [load-data]
         template: run-step
@@ -36,14 +41,16 @@ spec:
           - name: cmd
             value: "python3 src/split_data.py --data-dir /mnt/data"
 
+      # Обучение модели
       - name: train-model
         dependencies: [split-data]
         template: run-step
         arguments:
           parameters:
           - name: cmd
-            value: "python src/train.py --data-dir /mnt/data --params-file config/model-params.yaml"
-
+            value: "python3 src/train.py --data-dir /mnt/data --params-file config/model-params.yaml"
+      
+      # Валидация модели
       - name: validate-model
         dependencies: [train-model]
         template: run-step
@@ -65,3 +72,10 @@ spec:
       volumeMounts:
       - name: workdir
         mountPath: /mnt/data
+      resources:
+        requests:
+          memory: "512Mi"
+          cpu: "500m"
+        limits:
+          memory: "1Gi"
+          cpu: "1"

@@ -1,5 +1,6 @@
 IMAGE_NAME := nickosipov/otus-argo-workflows
 IMAGE_TAG := latest
+CONTAINER_NAME := otus-argo-workflows-container
 ARGO_VERSION := v3.7.4
 ARGO_URL := https://github.com/argoproj/argo-workflows/releases/download
 
@@ -11,7 +12,7 @@ build:
 	docker push $(IMAGE_NAME):$(IMAGE_TAG)	
 
 run:
-	docker run -it $(IMAGE_NAME):$(IMAGE_TAG) bash
+	docker run --rm -it --name $(CONTAINER_NAME) $(IMAGE_NAME):$(IMAGE_TAG) bash
 
 minikube-start:
 	minikube start

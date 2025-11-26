@@ -48,7 +48,7 @@ def main():
     logger.info("Вычисление метрик...")
     acc = accuracy_score(y_test, y_pred)
     logger.info(f"Accuracy: {acc:.4f}")
-    logger.info("Валидация модели завершена")
+    logger.info("Валидация модели завершена.")
 
 
 if __name__ == "__main__":

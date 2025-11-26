@@ -7,9 +7,10 @@ repos:
         id: default
         name: default
         entry: python -c "print('No entry for default hook')"
-        files: &files ^(src|tests|config)/
+        files: &files ^(src|config)/
         args: &paths_list
           - src
+          - config
         language: system
         types: [python]
         pass_filenames: false

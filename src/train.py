@@ -7,28 +7,9 @@ import argparse
 
 import joblib
 import pandas as pd
+import yaml
 from loguru import logger
 from sklearn.ensemble import RandomForestClassifier
-
-
-def parse_params(params_str):
-    """
-    Parse parameters string in format: key1=value1,key2=value2
-    Returns dict with converted types (int for numeric values)
-    """
-    params = {}
-    if params_str:
-        for param in params_str.split(","):
-            key, value = param.split("=")
-            # Пробуем преобразовать в int, если не получается - оставляем строкой
-            try:
-                params[key.strip()] = int(value.strip())
-            except ValueError:
-                try:
-                    params[key.strip()] = float(value.strip())
-                except ValueError:
-                    params[key.strip()] = value.strip()
-    return params
 
 
 def main():
@@ -41,13 +22,21 @@ def main():
     # Аргументы командной строки
     parser = argparse.ArgumentParser()
     parser.add_argument("--data-dir", type=str, required=True)
-    parser.add_argument("--params", type=str, default="n_estimators=100")
+    parser.add_argument("--params-file", type=str, required=True)
     args = parser.parse_args()
 
     # Получаем параметры
     data_dir = args.data_dir
-    model_params = parse_params(args.params)
+    params_file = args.params_file
     logger.info(f"Директория с данными: {data_dir}")
+    logger.info(f"Файл с параметрами: {params_file}")
+
+    # Загружаем параметры модели из YAML файла
+    logger.info("Загрузка параметров модели из YAML файла...")
+    with open(params_file, "r", encoding="utf-8") as f:
+        config = yaml.safe_load(f)
+
+    model_params = config.get("model_params", {})
     logger.info(f"Параметры модели: {model_params}")
 
     # Загружаем train данные

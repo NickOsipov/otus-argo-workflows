@@ -33,10 +33,9 @@
 
 ## Предварительные требования
 
-- Docker
-- Minikube
-- kubectl
-- Argo Workflows CLI
+- [Docker](https://docs.docker.com/engine/install/)
+- [Minikube, kubectl](https://kubernetes.io/docs/tasks/tools/)
+- [Argo Workflows CLI](https://argo-workflows.readthedocs.io/en/latest/quick-start/)
 
 ## Быстрый старт
 

@@ -3,7 +3,7 @@ name = "otus-argo-workflows"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = "==3.11.4"
+requires-python = "==3.11.11"
 dependencies = [
     "loguru==0.7.3",
     "pandas==2.3.3",

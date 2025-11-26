@@ -13,4 +13,7 @@ COPY uv.lock .
 
 RUN uv sync
 
+COPY src src
+COPY config config
+
 ENV PATH="/app/.venv/bin:$PATH"

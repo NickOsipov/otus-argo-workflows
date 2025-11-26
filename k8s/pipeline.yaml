@@ -6,7 +6,7 @@ metadata:
 spec:
   entrypoint: ml-workflow
   
-  # PVC для обмена файлами (самый простой способ)
+  # PVC для обмена файлами
   volumeClaimTemplates:
   - metadata:
       name: workdir
@@ -16,10 +16,11 @@ spec:
         requests:
           storage: 1Gi
 
+  # Шаблоны для задач
   templates:
   - name: ml-workflow
     dag:
-      tasks:
+      tasks:       
       - name: load-data
         template: run-step
         arguments:
@@ -41,9 +42,7 @@ spec:
         arguments:
           parameters:
           - name: cmd
-            value: "python src/train.py --data-dir /mnt/data --params {{inputs.parameters.params}}"
-          - name: params
-            value: "n_estimators=150,max_depth=10,min_samples_split=2,min_samples_leaf=1"
+            value: "python src/train.py --data-dir /mnt/data --params-file config/model-params.yaml"
 
       - name: validate-model
         dependencies: [train-model]
@@ -60,7 +59,7 @@ spec:
       - name: cmd
     container:
       image: nickosipov/otus-argo-workflows:latest
-      imagePullPolicy: IfNotPresent
+      imagePullPolicy: Always
       command: ["/bin/sh", "-c"]
       args: ["{{inputs.parameters.cmd}}"]
       volumeMounts:

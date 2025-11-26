@@ -33,11 +33,19 @@
 
 ## Предварительные требования
 
+- [uv](https://docs.astral.sh/uv/getting-started/installation/)
 - [Docker](https://docs.docker.com/engine/install/)
 - [Minikube, kubectl](https://kubernetes.io/docs/tasks/tools/)
 - [Argo Workflows CLI](https://argo-workflows.readthedocs.io/en/latest/quick-start/)
 
 ## Быстрый старт
+
+## Виртуальное окружение Python
+Рекомендуется использовать `uv` для управления зависимостями Python. Установите зависимости из `pyproject.toml`:
+
+```bash
+uv sync
+```
 
 ### 1. Запуск Minikube
 
